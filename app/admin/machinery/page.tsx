@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { Plus, Pencil, ArrowLeft } from 'lucide-react'
 import prisma from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic';
+
 export default async function MachineryListPage() {
   const machines = await prisma.machine.findMany({
     include: {

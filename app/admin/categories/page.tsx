@@ -4,6 +4,8 @@ import { getAllCategories } from '@/lib/actions/categories'
 import DeleteCategoryButton from './DeleteCategoryButton'
 import CategoryImage from './CategoryImage'
 
+export const dynamic = 'force-dynamic';
+
 type CategoryWithCount = {
   id: number
   name: string

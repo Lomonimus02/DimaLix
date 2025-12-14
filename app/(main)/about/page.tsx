@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { Building2, Users, TrendingUp, Award } from "lucide-react";
 import { getCompanySettings, getActiveDocuments } from "@/lib/actions/company";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: "О компании Iron Rent | Аренда спецтехники в СПб",
   description:

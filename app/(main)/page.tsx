@@ -7,6 +7,8 @@ import {
 } from "@/components/home";
 import { getFeaturedMachinesSerialized, getCategoriesSerialized, getMachinesCount } from "@/lib/data";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const [machines, categories, totalCount] = await Promise.all([
     getFeaturedMachinesSerialized(6),

@@ -4,6 +4,8 @@ import { getCompanySettings, getDocuments } from '@/lib/actions/company'
 import { AboutImageForm } from './AboutImageForm'
 import { DocumentCard } from './DocumentCard'
 
+export const dynamic = 'force-dynamic';
+
 export default async function CompanyAdminPage() {
   const [settings, documents] = await Promise.all([
     getCompanySettings(),

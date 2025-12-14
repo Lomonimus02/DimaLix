@@ -4,6 +4,8 @@ import { Search, Truck } from 'lucide-react'
 import { getMachines, getCategories, type MachineSearchParams } from '@/lib/data'
 import { MachineryCard, CatalogFilters } from '@/components/catalog'
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Каталог спецтехники | Iron Rent',
   description:

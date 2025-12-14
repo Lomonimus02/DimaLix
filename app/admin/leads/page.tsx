@@ -5,6 +5,8 @@ import { ArrowLeft, Phone, Clock, CheckCircle, XCircle, Loader2 } from 'lucide-r
 import { deleteLead, updateLeadStatus } from '@/lib/actions/leads'
 import { StatusSelect, DeleteButton } from './LeadActions'
 
+export const dynamic = 'force-dynamic';
+
 // Цвета и лейблы для статусов
 const statusConfig = {
   NEW: { label: 'Новая', color: 'bg-blue-500/20 text-blue-400', icon: Clock },

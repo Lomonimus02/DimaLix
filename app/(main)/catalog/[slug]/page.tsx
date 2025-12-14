@@ -5,6 +5,8 @@ import { ArrowLeft, CheckCircle, MapPin, Clock, Shield } from 'lucide-react'
 import { getMachineBySlug } from '@/lib/data'
 import { RentalCalculator, OrderButton } from '@/components/product'
 
+export const dynamic = 'force-dynamic';
+
 // Интерфейс параметров
 interface PageProps {
   params: Promise<{ slug: string }>
