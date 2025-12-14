@@ -15,7 +15,8 @@ COPY prisma.config.ts ./
 # Install dependencies
 RUN npm ci
 
-# Generate Prisma Client
+# Generate Prisma Client (with dummy URL for build)
+ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
 RUN npx prisma generate
 
 # Rebuild the source code only when needed
