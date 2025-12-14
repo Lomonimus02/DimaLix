@@ -1,0 +1,122 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==================== МОДЕЛИ ====================
+
+// Категория техники (Экскаваторы, Краны, Погрузчики и т.д.)
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String    // Название категории (напр. "Экскаваторы")
+  slug        String    @unique // URL-friendly идентификатор (напр. "excavators")
+  description String?   // Описание категории для SEO
+  imageUrl    String?   // URL изображения категории
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  // Связь с техникой
+  machines    Machine[]
+  
+  @@map("categories")
+}
+
+// Единица техники
+model Machine {
+  id          Int       @id @default(autoincrement())
+  title       String    // Название (напр. "Экскаватор JCB JS220")
+  slug        String    @unique // URL-friendly (напр. "jcb-js220")
+  
+  // Связь с категорией
+  categoryId  Int
+  category    Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  // Цены
+  shiftPrice  Decimal   @db.Decimal(10, 2) // Цена за смену (8 часов)
+  hourlyPrice Decimal?  @db.Decimal(10, 2) // Цена за час (опционально)
+  
+  // Характеристики (JSON, т.к. у разной техники разные параметры)
+  // Например: {"weight": "22 т", "bucketVolume": "1.2 м³", "reach": "9.5 м"}
+  specs       Json      @default("{}")
+  
+  // Контент
+  description String?   @db.Text // Полное описание для страницы
+  imageUrl    String?   // Главное фото
+  images      String[]  // Галерея фото (массив URL)
+  
+  // Флаги
+  isFeatured  Boolean   @default(false) // Показывать на главной
+  isAvailable Boolean   @default(true)  // Доступна для аренды
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  @@index([categoryId])
+  @@index([isFeatured])
+  @@index([isAvailable])
+  @@map("machines")
+}
+
+// Заявка на аренду
+model Lead {
+  id        Int        @id @default(autoincrement())
+  
+  // Контактные данные
+  name      String     // Имя клиента
+  phone     String     // Телефон (обязательно)
+  email     String?    // Email (опционально)
+  
+  // Детали заявки
+  machine   String?    // Название техники (если заявка со страницы товара)
+  interest  String?    // Интерес клиента (напр. "Экскаватор", "Автокран")
+  message   String?    @db.Text // Комментарий клиента
+  source    String?    // Откуда пришла заявка (форма, звонок и т.д.)
+  
+  // Статус обработки
+  status    LeadStatus @default(NEW)
+  
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  
+  @@index([status])
+  @@index([createdAt])
+  @@map("leads")
+}
+
+// Статусы заявки
+enum LeadStatus {
+  NEW        // Новая заявка
+  PROCESSING // В обработке
+  COMPLETED  // Завершена (договор заключен)
+  CANCELLED  // Отменена
+}
+
+// Настройки компании (singleton - одна запись)
+model CompanySettings {
+  id          Int       @id @default(1)
+  aboutImage  String?   // Фото для секции "О компании"
+  updatedAt   DateTime  @updatedAt
+  
+  @@map("company_settings")
+}
+
+// Документы (лицензии, допуски и т.д.)
+model Document {
+  id        Int       @id @default(autoincrement())
+  title     String    // Название документа
+  number    String?   // Номер документа
+  imageUrl  String?   // Скан/фото документа
+  sortOrder Int       @default(0) // Порядок сортировки
+  isActive  Boolean   @default(true) // Показывать на сайте
+  
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  
+  @@map("documents")
+}

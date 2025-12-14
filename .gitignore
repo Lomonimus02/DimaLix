@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/lib/generated/prisma
+
+# uploads (use cloud storage in production)
+/public/uploads/*
+!/public/uploads/.gitkeep
