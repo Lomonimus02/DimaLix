@@ -7,10 +7,9 @@ databases:
 services:
   - type: web
     name: iron-rent
-    runtime: node
+    runtime: docker
     plan: free
-    buildCommand: npm install && npx prisma generate && npm run build
-    startCommand: npx prisma migrate deploy && npm start
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -26,3 +25,7 @@ services:
         sync: false
       - key: NODE_ENV
         value: production
+    disk:
+      name: uploads
+      mountPath: /app/public/uploads
+      sizeGB: 1
